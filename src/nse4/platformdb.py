@@ -19,8 +19,8 @@ import json
 import logging
 import os
 
-from object_lock import ObjectLock
-from repeated_timer import RepeatedTimer
+from nse4.object_lock import ObjectLock
+from nse4.repeated_timer import RepeatedTimer
 
 
 class PlatformDB:

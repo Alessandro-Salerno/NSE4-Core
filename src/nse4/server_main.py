@@ -18,14 +18,14 @@
 import json
 import logging
 
-from server_commands import ExchangePriviledgedCommandHandler, ExchangeUserCommandHandler
+from nse4.server_commands import ExchangePriviledgedCommandHandler, ExchangeUserCommandHandler
 from unet.server import UNetAuthenticatedHandler, UNetAuthenticationHandler, UNetServer
-from exdb import EXCHANGE_DATABASE
-from scheduler import MarketScheduler
-from global_market import GlobalMarket
-from email_engine import EmailEngine
-from historydb import HistoryDB
-from event_engine import EventEngine
+from nse4.exdb import EXCHANGE_DATABASE
+from nse4.scheduler import MarketScheduler
+from nse4.global_market import GlobalMarket
+from nse4.email_engine import EmailEngine
+from nse4.historydb import HistoryDB
+from nse4.event_engine import EventEngine
 
 
 class ExchangeAuthenticatedHandler(UNetAuthenticatedHandler):
@@ -52,9 +52,9 @@ class ExchangeAuthenticationHandler(UNetAuthenticationHandler):
         EXCHANGE_DATABASE.add_user(username=username)
 
 
-if __name__ == '__main__':
+def main():
     print(
-"""NSE-Market-System Copyright (C) 2023 - 2025 Alessandro Salerno
+"""NSE4 Server 4.0.1 Copyright (C) 2023 - 2025 Alessandro Salerno
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 """)
@@ -90,3 +90,6 @@ This is free software, and you are welcome to redistribute it
     logging.info("Starting event loop...")
     events = EventEngine()
     s.start_scheduler()
+
+if __name__ == '__main__':
+    main()

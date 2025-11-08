@@ -20,9 +20,9 @@ from order_matching.execution import Execution
 from exdb import EXCHANGE_DATABASE
 from unet.protocol import *
 
-from global_market import GlobalMarket
-from historydb import HistoryDB
-import utils
+from nse4.global_market import GlobalMarket
+from nse4.historydb import HistoryDB
+import nse4.utils as utils
 
 
 def increment_balance(username: str, qty: int):

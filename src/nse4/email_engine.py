@@ -25,7 +25,7 @@ from unet.singleton import UNetSingleton
 from exdb import EXCHANGE_DATABASE
 from unet.database import UNetUserDatabase
 
-import utils
+import nse4.utils as utils
 
 
 class EmailEngine(UNetSingleton):

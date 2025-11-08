@@ -17,11 +17,11 @@
 
 from order_matching.side import Side
 from order_matching.execution import Execution
-from object_lock import ObjectLock
+from nse4.object_lock import ObjectLock
 
 from unet.singleton import UNetSingleton
 
-from exdb import EXCHANGE_DATABASE
+from nse4.exdb import EXCHANGE_DATABASE
 
 
 class MarketIndex:

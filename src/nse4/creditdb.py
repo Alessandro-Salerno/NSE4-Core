@@ -17,7 +17,7 @@
 
 from unet.database import UNetDatabase
 from unet.singleton import UNetSingleton
-import utils
+import nse4.utils as utils
 import json
 
 

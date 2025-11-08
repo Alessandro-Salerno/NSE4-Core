@@ -1,0 +1,39 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "nse4"
+version = "4.0.1"
+description = "Financial Market Software... For a Minecraft Server"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "../../LICENSE" }
+
+authors = [
+    { name = "Alessandro Salerno", email = "example@example.com" }
+]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "markdown",
+    "schedule", 
+    "order-matching",
+    "pytz",
+    "texttable",
+    "mcom @ git+https://github.com/Alessandro-Salerno/NSE4-Libraries.git@1.0#subdirectory=python/mcom",
+    "unet @ git+https://github.com/Alessandro-Salerno/NSE4-Libraries.git@1.0#subdirectory=python/unet",
+]
+
+[project.urls]
+Homepage = "https://github.com/Alessandro-Salerno/NSE4-Core"
+"Bug Tracker" = "https://github.com/Alessandro-Salerno/NSE4-Core/issues"
+
+[project.scripts]
+nse4-server = "nse4.server_main:main"
+nse4-term = "nse4.terminal_main:main"

@@ -288,8 +288,7 @@ def get_int(message, valrange=(0, 0)):
             print('Invalid input\n')
 
 
-
-if __name__ == '__main__':
+def main():
     # VERY Bad client code
     while True:
         p.clear_terminal()
@@ -320,8 +319,12 @@ Mode: """)
                 args.append(input('E-Mail Address: '))
                 args.append(getpass.getpass('Password: '))
 
+        global client
         client = UNetClient(conn_mode=UNetClientConnectionMode(*args),
                             local_command_handler=MyLocalHandler(),
                             server_address=server_addr if len(server_addr) != 0 else '127.0.0.1',
                             server_port=server_port,
                             connection_handler_class=MyHandler)
+
+if __name__ == '__main__':
+    main()
