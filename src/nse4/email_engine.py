@@ -22,7 +22,7 @@ from email.mime.text import MIMEText
 from texttable import Texttable
 
 from unet.singleton import UNetSingleton
-from exdb import EXCHANGE_DATABASE
+from nse4.exdb import EXCHANGE_DATABASE
 from unet.database import UNetUserDatabase
 
 import nse4.utils as utils
