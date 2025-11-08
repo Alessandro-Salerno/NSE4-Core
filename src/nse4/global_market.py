@@ -111,7 +111,7 @@ class GlobalMarket(UNetSingleton):
         EXCHANGE_DATABASE.orders.pop(order_id)
 
     def create_market(self, ticker):
-        from market_manager import MarketManager
+        from nse4.market_manager import MarketManager
         self.markets.__setitem__(ticker, MarketManager(ticker))
 
     def remove_market(self, ticker):
