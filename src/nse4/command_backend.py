@@ -17,7 +17,7 @@
 
 from order_matching.execution import Execution
 
-from exdb import EXCHANGE_DATABASE
+from nse4.exdb import EXCHANGE_DATABASE
 from unet.protocol import *
 
 from nse4.global_market import GlobalMarket
