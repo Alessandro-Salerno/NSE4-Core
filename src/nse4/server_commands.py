@@ -35,7 +35,6 @@ from nse4.object_lock import ObjectLock
 from nse4.exdb import EXCHANGE_DATABASE
 from nse4.global_market import GlobalMarket
 from nse4.settlement import MarketSettlement
-from nse4.email_engine import EmailEngine
 from nse4.historydb import HistoryDB
 from nse4.creditdb import CreditDB
 from nse4.event_engine import EventEngine, ExchangeEvent
