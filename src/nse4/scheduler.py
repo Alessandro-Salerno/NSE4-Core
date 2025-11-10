@@ -22,7 +22,6 @@ from unet.singleton import UNetSingleton
 
 from nse4.exdb import EXCHANGE_DATABASE
 from nse4.settlement import MarketSettlement
-from nse4.email_engine import EmailEngine
 from nse4.historydb import HistoryDB
 import nse4.utils as utils
 
@@ -49,14 +48,11 @@ class MarketScheduler(UNetSingleton):
         
         schedule.every().day.at('00:00', 'Europe/Rome').do(MarketSettlement().settle)
 
-    def schedule_emails(self):
-        schedule.every().day.at('12:00', 'Europe/Rome').do(EmailEngine().send)
-
     def start_scheduler(self):
         self.schedule_intraday()
-        self.schedule_emails()
         self.schedule_settlement()
 
         while True:
             schedule.run_pending()
             time.sleep(60)
+

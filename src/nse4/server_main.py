@@ -23,7 +23,6 @@ from unet.server import UNetAuthenticatedHandler, UNetAuthenticationHandler, UNe
 from nse4.exdb import EXCHANGE_DATABASE
 from nse4.scheduler import MarketScheduler
 from nse4.global_market import GlobalMarket
-from nse4.email_engine import EmailEngine
 from nse4.historydb import HistoryDB
 from nse4.event_engine import EventEngine
 
@@ -54,7 +53,7 @@ class ExchangeAuthenticationHandler(UNetAuthenticationHandler):
 
 def main():
     print(
-"""NSE4 Server 4.0.1 Copyright (C) 2023 - 2025 Alessandro Salerno
+"""NSE4 Server 4.0.2 Copyright (C) 2023 - 2025 Alessandro Salerno
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 """)
@@ -65,20 +64,6 @@ This is free software, and you are welcome to redistribute it
     exdb = EXCHANGE_DATABASE
     history = HistoryDB()
     logging.info("All loaded! Starting components...")
-    ee = EmailEngine()
-    
-    try:
-        with open('settings.json', 'r') as file:
-            settings = json.loads(file.read())
-            ee.password = settings['googleAppPassword']
-    except:
-        with open('settings.json', 'w') as file:
-            file.write(json.dumps({
-                'googleAppPassword': ''
-            }, indent=4))
-            exit()
-
-    logging.info("E-Mail Engine started!")
 
     mkt = GlobalMarket()
     logging.info("Order Matching Engine started!")
