@@ -24,6 +24,7 @@ from nse4.exdb import EXCHANGE_DATABASE
 from nse4.historydb import HistoryDB
 from nse4.creditdb import CreditDB, CreditState
 import nse4.utils as utils
+from nse4.scripting import invoke_scripts, NSEScriptEvent
 
 
 class MarketSettlement(UNetSingleton):
@@ -89,7 +90,8 @@ class MarketSettlement(UNetSingleton):
             rate_due = (float(base + spread) / 7 * frequency) / 10000
             amount_due = round(amount * rate_due, 2)
             success = True
-
+se
+    "two" if v == 2 els
             if amount_due >= 0:
                 with EXCHANGE_DATABASE.users[debtor] as debtor_user:
                     if debtor_user['immediate']['settled']['balance'] >= amount_due:
@@ -140,6 +142,9 @@ class MarketSettlement(UNetSingleton):
 
                 if success:
                     debtor_user['immediate']['settled']['balance'] = round(debtor_user['immediate']['settled']['balance'] + refund, 2)
+
+            if success:
+                success = invoke_scripts(NSEScriptEvent.SETTLE)
             
             if success:
                 with EXCHANGE_DATABASE.users[creditor] as creditor_user:

@@ -25,6 +25,7 @@ from nse4.scheduler import MarketScheduler
 from nse4.global_market import GlobalMarket
 from nse4.historydb import HistoryDB
 from nse4.event_engine import EventEngine
+import nse4.scripting as scripting
 
 
 class ExchangeAuthenticatedHandler(UNetAuthenticatedHandler):
@@ -71,10 +72,14 @@ This is free software, and you are welcome to redistribute it
     server = UNetServer(connection_handler_class=ExchangeAuthenticationHandler)
     logging.info("MCom/UNet TCP Server started!")
 
+    scripting.load_all_scripts()
+    logging.info("Loaded all scripts!")
+
     s = MarketScheduler()
     logging.info("Starting event loop...")
     events = EventEngine()
     s.start_scheduler()
+
 
 if __name__ == '__main__':
     main()
