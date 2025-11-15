@@ -90,8 +90,7 @@ class MarketSettlement(UNetSingleton):
             rate_due = (float(base + spread) / 7 * frequency) / 10000
             amount_due = round(amount * rate_due, 2)
             success = True
-se
-    "two" if v == 2 els
+
             if amount_due >= 0:
                 with EXCHANGE_DATABASE.users[debtor] as debtor_user:
                     if debtor_user['immediate']['settled']['balance'] >= amount_due:
