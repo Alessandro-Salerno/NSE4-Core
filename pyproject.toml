@@ -7,7 +7,7 @@ allow-direct-references = true
 
 [project]
 name = "nse4"
-version = "4.0.2"
+version = "4.0.3"
 description = "Financial Market Software... For a Minecraft Server"
 readme = "README.md"
 requires-python = ">=3.10"

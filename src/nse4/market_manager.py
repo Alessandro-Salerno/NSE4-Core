@@ -76,7 +76,7 @@ class MarketManager:
                             order_id=GlobalMarket().next_order_index(),
                             trader_id=issuer,
                             timestamp=datetime.now(),
-                            expiration=datetime.now() + timedelta(days=365))
+                            expiration=datetime.now() + timedelta(days=3650))
 
         invoke_scripts(ExchangeScriptEvent.ORDER_PLACED, issuer=issuer, execution=Execution.MARKET,
                        ticker=self._ticker, price=0)

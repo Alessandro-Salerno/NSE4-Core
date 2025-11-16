@@ -54,7 +54,7 @@ class ExchangeAuthenticationHandler(UNetAuthenticationHandler):
 
 def main():
     print(
-"""NSE4 Server 4.0.2 Copyright (C) 2023 - 2025 Alessandro Salerno
+"""NSE4 Server 4.0.3 Copyright (C) 2023 - 2025 Alessandro Salerno
 This program comes with ABSOLUTELY NO WARRANTY.
 This is free software, and you are welcome to redistribute it
 """)
