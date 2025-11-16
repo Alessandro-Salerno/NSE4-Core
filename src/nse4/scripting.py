@@ -1,4 +1,3 @@
-
 # NSE4 Core
 # Copyright (C) 2023 - 2025 Alessandro Salerno
 
@@ -21,27 +20,49 @@ import importlib.util
 from pathlib import Path
 from typing import Type
 
+from order_matching.execution import Execution
 
-class NSEScriptEvent:
+
+class ExchangeScriptEvent:
     LOAD = 1
     SETTLE = 2
+    SETTLE_DONE = 3
+    MONEY_TRANSFER = 4
+    ASSET_TRANSFER = 5
+    ORDER_PLACED = 6
+    TRADE_EXECUTED = 7
 
 
-class NSEInvalidEventException(Exception):
+class ExchangeInvalidEventException(Exception):
     def __init__(self, event) -> None:
         super().__init__(event)
 
 
-class NSEScriptHandle:
-    def on_load(self) -> bool:
-        return True
+class ExchangeScriptHandle:
+    def on_load(self):
+        return
 
-    def on_settle(self) -> bool:
-        return True
+    def on_settle(self):
+        return
+
+    def on_settle_done(self):
+        return
+
+    def on_money_transfer(self, sender: str, dest: str, amount: float):
+        return
+
+    def on_asset_transfer(self, sender: str, dest: str, ticker: str, amount: int):
+        return
+
+    def on_order_placed(self, issuer: str, execution: int, ticker: str, amount: int, price: float):
+        return
+
+    def on_trade_executed(self, buyer: str, seller: str, ticker: str, amount: int, price: float):
+        return
 
 
-script_handles: list[NSEScriptHandle] = []
-scripts_dir = Path("./nse-scripts")
+script_handles: list[ExchangeScriptHandle] = []
+scripts_dir = Path("./scripts")
 
 def load_all_scripts():
     for file in scripts_dir.glob("*.py"):
@@ -57,21 +78,30 @@ def load_all_scripts():
             logging.error(f"Failed to load script {module_name}")
 
 
-def nse_script(handle: Type[NSEScriptHandle]):
+def exchange_script(handle: Type[ExchangeScriptHandle]):
     handle_ins = handle()
     handle_ins.on_load()
     script_handles.append(handle_ins)
 
 
-def invoke_scripts(event) -> bool:
+def invoke_scripts(event, **kwargs):
     for handle in script_handles:
-        result = (lambda e: handle.on_load() if event == NSEScriptEvent.LOAD else
-                            handle.on_settle() if event == NSEScriptEvent.SETTLE else
-                            None)(event)
-        if result is None:
-            raise NSEInvalidEventException(event)
-        if not result:
-            return False
-    
-    return True
+        match event:
+            case ExchangeScriptEvent.LOAD:
+                handle.on_load()
+            case ExchangeScriptEvent.SETTLE:
+                handle.on_settle()
+            case ExchangeScriptEvent.SETTLE_DONE:
+                handle.on_settle_done()
+            case ExchangeScriptEvent.MONEY_TRANSFER:
+                handle.on_money_transfer(**kwargs)
+            case ExchangeScriptEvent.ASSET_TRANSFER:
+                handle.on_asset_transfer(**kwargs)
+            case ExchangeScriptEvent.ORDER_PLACED:
+                handle.on_order_placed(**kwargs)
+            case ExchangeScriptEvent.TRADE_EXECUTED:
+                handle.on_trade_executed(**kwargs)
+            
+            case _:
+                raise ExchangeInvalidEventException(event)
 

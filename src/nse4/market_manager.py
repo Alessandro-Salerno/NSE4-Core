@@ -27,6 +27,7 @@ from nse4.object_lock import ObjectLock
 from nse4.global_market import GlobalMarket
 from nse4.platformdb import PlatformDB
 from nse4.exdb import EXCHANGE_DATABASE
+from nse4.scripting import invoke_scripts, ExchangeScriptEvent
 
 from nse4.matching_layer import MatchingLayer
 from nse4.event_engine import EventEngine, ExchangeEvent
@@ -52,8 +53,11 @@ class MarketManager:
                            order_id=GlobalMarket().next_order_index(),
                            trader_id=issuer,
                            timestamp=datetime.now(),
-                           expiration=datetime.now() + timedelta(days=365),
+                           expiration=datetime.now() + timedelta(days=3650),
                            price_number_of_digits=2)
+
+        invoke_scripts(ExchangeScriptEvent.ORDER_PLACED, issuer=issuer, execution=Execution.LIMIT,
+                       ticker=self._ticker, price=price)
 
         with self._engine_lock as engine:
             if not self._tradable:
@@ -73,6 +77,9 @@ class MarketManager:
                             trader_id=issuer,
                             timestamp=datetime.now(),
                             expiration=datetime.now() + timedelta(days=365))
+
+        invoke_scripts(ExchangeScriptEvent.ORDER_PLACED, issuer=issuer, execution=Execution.MARKET,
+                       ticker=self._ticker, price=0)
 
         with self._engine_lock as engine:
             if not self._tradable:
@@ -221,6 +228,10 @@ class MarketManager:
 
             if book_order.left < 1:
                 users_to_notify.add(book_order.trader_id)
+
+            invoke_scripts(ExchangeScriptEvent.TRADE_EXECUTED, buyer=buyer,
+                           seller=seller, ticker=self._ticker, amount=trade.size,
+                           price=sell_price) # TODO: remove buy/sell price
 
         EventEngine().notify_async(users_to_notify, ExchangeEvent.ORDER_FILLED)
 

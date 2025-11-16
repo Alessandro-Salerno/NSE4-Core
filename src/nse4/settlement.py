@@ -24,7 +24,7 @@ from nse4.exdb import EXCHANGE_DATABASE
 from nse4.historydb import HistoryDB
 from nse4.creditdb import CreditDB, CreditState
 import nse4.utils as utils
-from nse4.scripting import invoke_scripts, NSEScriptEvent
+from nse4.scripting import invoke_scripts, ExchangeScriptEvent
 
 
 class MarketSettlement(UNetSingleton):
@@ -55,6 +55,8 @@ class MarketSettlement(UNetSingleton):
                 user['immediate']['current']['assets'].clear()
 
                 HistoryDB().add_user_daily(username, EXCHANGE_DATABASE.get_open_date(), user['immediate']['settled']['balance'], user['immediate']['settled']['assets'])
+
+        invoke_scripts(ExchangeScriptEvent.SETTLE)
         
         for assetname in EXCHANGE_DATABASE.assets:
             with EXCHANGE_DATABASE.assets[assetname] as asset:
@@ -141,10 +143,9 @@ class MarketSettlement(UNetSingleton):
 
                 if success:
                     debtor_user['immediate']['settled']['balance'] = round(debtor_user['immediate']['settled']['balance'] + refund, 2)
-
-            if success:
-                success = invoke_scripts(NSEScriptEvent.SETTLE)
             
             if success:
                 with EXCHANGE_DATABASE.users[creditor] as creditor_user:
                     creditor_user['immediate']['settled']['balance'] = round(creditor_user['immediate']['settled']['balance'] + amount_due, 2)
+    
+        invoke_scripts(ExchangeScriptEvent.SETTLE_DONE)

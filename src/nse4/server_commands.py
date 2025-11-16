@@ -38,6 +38,7 @@ from nse4.settlement import MarketSettlement
 from nse4.historydb import HistoryDB
 from nse4.creditdb import CreditDB
 from nse4.event_engine import EventEngine, ExchangeEvent
+from nse4.scripting import invoke_scripts, ExchangeScriptEvent
 
 import nse4.command_backend as cb
 import nse4.utils as utils
@@ -471,6 +472,7 @@ class ExchangeUserCommandHandler(UNetCommandHandler):
                 receiver['immediate']['settled']['balance'] += real_amount
 
         HistoryDB().add_payment(command.issuer, who, real_amount, category)
+        invoke_scripts(ExchangeScriptEvent.MONEY_TRANSFER, sender=command.issuer, dest=who, amount=real_amount)
         return unet_make_status_message(
             mode=UNetStatusMode.OK,
             code=UNetStatusCode.DONE,
@@ -757,6 +759,8 @@ class ExchangeUserCommandHandler(UNetCommandHandler):
                 receiver['immediate']['settled']['assets'].pop(ticker)
         
         HistoryDB().add_payment(command.issuer, who, qty, None, ticker)
+        invoke_scripts(ExchangeScriptEvent.ASSET_TRANSFER, sender=command.issuer,
+                       dest=who, ticker=ticker, amount=qty)
         return unet_make_status_message(
             mode=UNetStatusMode.OK,
             code=UNetStatusCode.DONE,
