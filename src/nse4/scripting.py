@@ -54,7 +54,7 @@ class ExchangeScriptHandle:
     def on_asset_transfer(self, sender: str, dest: str, ticker: str, amount: int):
         return
 
-    def on_order_placed(self, issuer: str, execution: int, ticker: str, amount: int, price: float):
+    def on_order_placed(self, issuer: str, execution: int, side: int, ticker: str, amount: int, price: float):
         return
 
     def on_trade_executed(self, buyer: str, seller: str, ticker: str, amount: int, price: float):
