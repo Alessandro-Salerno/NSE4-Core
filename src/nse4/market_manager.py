@@ -57,7 +57,7 @@ class MarketManager:
                            price_number_of_digits=2)
 
         invoke_scripts(ExchangeScriptEvent.ORDER_PLACED, issuer=issuer, execution=Execution.LIMIT,
-                       side=side ticker=self._ticker, price=price, amount=size)
+                       side=side, ticker=self._ticker, price=price, amount=size)
 
         with self._engine_lock as engine:
             if not self._tradable:
